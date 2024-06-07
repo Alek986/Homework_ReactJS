@@ -7,7 +7,7 @@ export const Movies = (props: MoviesProps) => {
     return (
         <ul>
             {props.movies.map((movie) => {
-                return <li>{movie}</li>
+                return <li key={movie}>{movie}</li>
             })}
         </ul>
     )
