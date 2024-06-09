@@ -4,57 +4,61 @@ export const EventsHomework = () => {
 
     const [count, setCount] = useState(0);
     const [input, setInput] = useState("");
-    const [error, setError]= useState("");
-    
-    
+    const [error, setError] = useState("");
+
+    const handleInputChange = (event: any) => {
+
+        const input = event.target.value;
+        setInput(input);
+        const incrementDecrementValue = parseInt(input);
+
+        if (input === "") {
+            setError("")
+        }
+        else if (isNaN(incrementDecrementValue)) {
+            setError("The input is not a number")
+        }
+        else if (incrementDecrementValue < 0) {
+            setError("Please enter number higher than 0")
+        }
+        else {
+            setError("")
+        }
+    };
+
     const handleIncrement = () => {
-        if(input === ""){
+        if (input === "") {
             setCount(count + 1)
             setError("")
             return
         };
         const incrementValue = parseInt(input)
-        if(isNaN(incrementValue)){ 
-           // Error ("The input is not a number, please enter number as value") procitav deka vaka ne mozelo.. pa otkako go vidov go dodadov kodot na 7ma linija i se povrzano so nego otposle
-             return
-            };
-        if (incrementValue < 0){
-             // Error ("Please enter number higher than 0")
-             setError("Please enter number higher than 0")
-             return
+        if (!isNaN(incrementValue) && incrementValue >= 0) {
+            setCount(count + incrementValue)
+            return
         };
-        setError("")
-        setCount(count + incrementValue)
     };
 
     const handleDecrement = () => {
-        if(input === ""){
+        if (input === "") {
             setCount(count - 1)
             setError("")
             return
         };
         const decrementValue = parseInt(input)
-        if(isNaN(decrementValue)){
-            // Error ("The input is not a number, please enter number as value")
-            setError("The input is not a number, please enter number as value")
+        if (!isNaN(decrementValue) && decrementValue >= 0) {
+            setCount(count - decrementValue)
             return
         };
-        if(decrementValue < 0){
-            // Error ("Please enter number higher than 0")
-            setError("Please enter number higher than 0") 
-            return
-        };
-        setError("");
-        setCount(count - decrementValue)
-        };
-        
+    };
+
     return (
         <div>
             <p>Count is: {count}</p>
-            <button onClick={handleIncrement}>Increment</button>
-            <button onClick={handleDecrement}>Decrement</button>
-            <input type="text" value={input} onChange={(event) => setInput(event.target.value)} placeholder="Enter something here"/>
+            <button onClick={handleIncrement} disabled={!!error}>Increment</button>
+            <button onClick={handleDecrement} disabled={!!error}>Decrement</button>
+            <input type="text" value={input} onChange={handleInputChange} placeholder="Enter something here" />
+            {error && <div style={{ color: "red" }}>{error}</div>}
         </div>
-        // ne znam kako da go ishendlam errorot so trganje na kopceto. posledniot task od prvata zadaca
     )
 };
